@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="todo">
+
+<head>
+    <meta charset="utf-8">
+    <title>ToDo</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="/app.js"></script>
+</head>
+
+<body ng-controller="MainController as $ctrl">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            <!-- output current time and date -->
+                            <date-time></date-time>
+                        </th>
+                        <th>
+                            <!-- just toggle alarm icon on/off -->
+                            <button class="btn btn-default" ng-click="$ctrl.toggleAlarm()">
+                                <i class="fa" ng-class="{'fa-bell-o':$ctrl.alarm, 'fa-bell-slash-o':!$ctrl.alarm}"></i>
+                            </button>
+                        </th>
+                        <th>
+                            <!-- scroll dates from today upto end of next week -->
+                            <button class="btn btn-default" ng-disabled="$ctrl.datesCursor == 0" ng-click="$ctrl.changeDay(false)">-1</button>
+                            <span>{{ $ctrl.selectedDate }}</span>
+                            <button class="btn btn-default" ng-disabled="$ctrl.dates.length == $ctrl.datesCursor + 1" ng-click="$ctrl.changeDay(true)">+1</button>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="(hour, data) in $ctrl.hoursPerDay[$ctrl.selectedDate] track by $index">
+                        <!-- hour column -->
+                        <td ng-class="{'highlight': $ctrl.activeHighlight == hour || $ctrl.isInActiveSpan(hour), 'inspan': $ctrl.isInSpan(hour) || data.message.length > 0}" ng-click="$ctrl.highlightActive(hour)">{{ ::hour }}</td>
+                        <!-- message and actions column -->
+                        <td colspan="2" rowspan="{{ data.span }}" ng-if="!$ctrl.isInSpan(hour)">
+                            <!-- delete todo entry span, reset todo message -->
+                            <button type="button" class="btn btn-default btn-close" ng-click="$ctrl.reset(hour)" ng-if="data.message != '' && $ctrl.activeHighlight">
+                                    <i class="fa fa-remove"></i>
+                            </button>
+                            <!-- todo entry field -->
+                            <input type="text" ng-model="$ctrl.hoursPerDay[$ctrl.selectedDate][hour].message" maxlength="20" class="form-control" ng-focus="$ctrl.highlightActive(hour)" ng-keydown="$ctrl.messageKeydown($event)">
+                            <!-- decrease todo entry span by 1, if it spans for 2 or more hours -->
+                            <button type="button" class="btn btn-default btn-minus" ng-if="data.span != 0 && $ctrl.activeHighlight" ng-click="$ctrl.modifySpan(hour,false)">
+                                    <i class="fa fa-minus"></i>
+                            </button>
+                            <!-- increase todo entry span if it has space to increase -->
+                            <button type="button" class="btn btn-default btn-plus" ng-click="$ctrl.modifySpan(hour,true)" ng-if="( $ctrl.activeHighlight == hour) && $ctrl.isExpandable(hour, data.span)">
+                                    <i class="fa fa-plus"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4 "></div>
+    </div>
+</body>
+
+</html>

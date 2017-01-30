@@ -1,0 +1,33 @@
+{
+    "name": "TodoApp",
+    "version": "0.0.1",
+    "description": "Todo App",
+    "main": "dist/index.html",
+    "author": "Oleg Maximov",
+    "license": "Closed Source",
+    "devDependencies": {
+        "add-stream": "^1.0.0",
+        "gulp": "^3.8.11",
+        "gulp-chmod": "^1.2.0",
+        "gulp-concat": "^2.5.2",
+        "gulp-concat-css": "^2.2.0",
+        "gulp-connect": "^4.0.0",
+        "gulp-csscomb": "^3.0.3",
+        "gulp-cssmin": "^0.1.6",
+        "gulp-debug": "^2.0.1",
+        "gulp-if": "^1.2.5",
+        "gulp-minify-css": "^1.1.0",
+        "gulp-sourcemaps": "^1.6.0",
+        "gulp-uglify": "^1.2.0",
+        "gulp-uglifyjs": "^0.6.1",
+        "gulp-usemin": "^0.3.11",
+        "yargs": "^3.24.0"
+    },
+    "dependencies": {
+        "angular": "^1.6.1",
+        "bootstrap": "^3.3.7",
+        "lodash": "^4.17.4",
+        "moment": "^2.17.1",
+        "moment-range": "^2.2.0"
+    }
+}
